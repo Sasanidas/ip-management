@@ -23,7 +23,7 @@
   (:use #:cl #:ip-management/interface)
   (:nicknames #:ipm/impl)
   (:export #:process-alive-p
-           #:process-delete
+           #:delete-process
            #:process-close
            #:process-flush
            #:process-stream-open-p

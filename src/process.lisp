@@ -142,7 +142,7 @@
 (defmethod process-flush ((process process))
   (finish-output (process-input process)))
 
-(defmethod process-delete ((process process))
+(defmethod delete-process ((process process))
   (and (process-kill process 9)
        (process-close process)))
 
