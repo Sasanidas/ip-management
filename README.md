@@ -1,4 +1,4 @@
-# I(nferior)P(process)-management
+# I(nferior)P(process) management
 
 IP-management is a library for controling background process, it defines an common interface that others libraries/systems can use
 to manipulate standard procedures like input/output and signals.
