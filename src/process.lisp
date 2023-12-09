@@ -148,12 +148,15 @@
 
 (defmethod process-stream-open-p ((process process))
   (process-flush process)
-  (let ((possible-char (read-char-no-hang
-                        (process-output process))))
-    (when (characterp possible-char)
-      (trivial-gray-streams:stream-unread-char
-       (process-output process) possible-char)
-      t)))
+  (labels ((check-last-char (output)
+             (let ((possible-char (read-char-no-hang output)))
+               (when (characterp possible-char)
+                 (trivial-gray-streams:stream-unread-char
+                  output possible-char)
+                 t))))
+
+    (or (check-last-char (process-output process))
+        (check-last-char (process-error process)))))
 
 (defmethod process-send-line ((line String) (process process))
   (write-line line (process-input process)))
@@ -169,14 +172,29 @@
         else do (sleep 0.001))
 
   (if (process-stream-open-p process)
-      (loop with output = ""
-            with poutput = (process-output process)
-            for char = (read-char-no-hang poutput)
-            if (null char)
-            return output
-            else
-            do (setf output
-                     (format nil "~a~a" output char)))
+      (loop with soutput = ""
+            with sprocess = (process-output process)
+
+            with eoutput = ""
+            with eprocess = (process-error process)
+
+            for schar = (read-char-no-hang sprocess)
+            for echar = (read-char-no-hang eprocess)
+
+            when (and (null schar) (null echar))
+            return (if (not (uiop:emptyp eoutput))
+                       (format nil "~a~%~a"
+                               soutput
+                               eoutput)
+                       soutput)
+
+            when schar
+            do (setf soutput
+                     (format nil "~a~a" soutput schar))
+
+            when echar
+            do (setf eoutput
+                     (format nil "~a~a" eoutput echar)))
       ""))
 
 (defmethod process-read-line ((process process))
