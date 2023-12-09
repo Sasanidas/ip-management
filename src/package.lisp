@@ -24,6 +24,8 @@
   (:nicknames #:ipm/impl)
   (:export #:process-alive-p
            #:delete-process
+           #:process-kill
+	   #:process-buffer-stream
            #:process-close
            #:process-flush
            #:process-stream-open-p
