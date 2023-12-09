@@ -1,3 +1,5 @@
+;; Base on https://github.com/archimag/cl-popen/blob/master/process.lisp
+
 (in-package #:ipm/impl)
 
 (defclass process ()

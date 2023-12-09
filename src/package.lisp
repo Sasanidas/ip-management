@@ -1,7 +1,7 @@
 
 (defpackage #:ip-management/interface
   (:use #:cl)
-  (:nicknames #:imp/interface)
+  (:nicknames #:ipm/interface)
   (:export #:run-process
            #:process-close
            #:process-poll
