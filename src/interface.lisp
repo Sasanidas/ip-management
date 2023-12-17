@@ -49,6 +49,10 @@
   (:documentation
    "Send a string to the process but with a line terminator."))
 
+(defgeneric process-send-string(line process)
+  (:documentation
+   "Send a string to the process but with no line terminator."))
+
 (defgeneric process-send-char (character process)
   (:documentation
    "Send a single character to the process."))
