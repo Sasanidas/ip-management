@@ -166,6 +166,9 @@
 (defmethod process-send-char ((char character) (process process))
   (write-char char (process-input process)))
 
+(defmethod process-send-string ((string String) (process process))
+  (write-string string (process-input process)))
+
 (defmethod process-get-last-output ((process process))
   (loop repeat 100
         do (process-flush process)
